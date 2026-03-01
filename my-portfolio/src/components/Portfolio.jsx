@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar           from "./Navbar";
 import Hero             from "./Hero";
 import About            from "./About";
@@ -10,15 +10,58 @@ import Footer           from "./Footer";
 import AdminPanel       from "./AdminPanel";
 import useProjects      from "../hooks/useProjects";
 
+// ── "LN" initials favicon — blue gradient circle, white serif text ────────
+const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#0284c7"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="32" fill="url(#g)"/>
+  <text
+    x="32" y="41"
+    font-family="Georgia, serif"
+    font-size="23"
+    font-weight="bold"
+    fill="white"
+    text-anchor="middle"
+    letter-spacing="1"
+  >LN</text>
+</svg>`;
+
 export default function Portfolio() {
-  const [dark, setDark]           = useState(true);
-  const [adminOpen, setAdminOpen] = useState(false);
+  const [dark, setDark]             = useState(true);
+  const [adminOpen, setAdminOpen]   = useState(false);
   const [adminHover, setAdminHover] = useState(false);
 
   const { projects, addProject, updateProject, deleteProject } = useProjects();
 
   const scrollTo = (id) =>
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+
+  // ── Favicon + page title ────────────────────────────────────────────────
+  useEffect(() => {
+    // Set page title
+    document.title = "Loise Njeru | Web Developer & Research Specialist";
+
+    // Build a blob URL from the inline SVG
+    const blob = new Blob([FAVICON_SVG], { type: "image/svg+xml" });
+    const url  = URL.createObjectURL(blob);
+
+    // Remove any existing favicon links (including the default vite one)
+    document.querySelectorAll("link[rel*='icon']").forEach((el) => el.remove());
+
+    // Inject our new favicon
+    const link  = document.createElement("link");
+    link.rel    = "icon";
+    link.type   = "image/svg+xml";
+    link.href   = url;
+    document.head.appendChild(link);
+
+    // Cleanup blob URL on unmount
+    return () => URL.revokeObjectURL(url);
+  }, []);
 
   const bg = dark ? "#020b18" : "#f0f4f8";
   const fg = dark ? "#e2e8f0" : "#1e293b";

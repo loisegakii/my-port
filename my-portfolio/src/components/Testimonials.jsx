@@ -2,24 +2,28 @@ import FadeIn from "./FadeIn";
 
 const testimonials = [
   {
-    name: "Dr. Sarah Okonkwo",
-    role: "University Lecturer, Nairobi",
-    text: "Exceptional academic writing support. My research paper was published in a peer-reviewed journal. The depth of analysis and citation quality was outstanding.",
+    name: "Hadassah",
+    role: "Founder, Dasa Hair",
+    text: "Loise built us a beautiful online store that truly represents our brand. She understood exactly what we needed and delivered a polished, professional result. Our customers love how easy it is to shop and our sales have grown significantly since launch.",
+    color: "#ec4899",
   },
   {
-    name: "James Mutua",
-    role: "CEO, TechStart Kenya",
-    text: "Our website went from invisible to page 1 on Google within 8 weeks. The SEO strategy combined with clean design was exactly what we needed.",
+    name: "Fred Makoha",
+    role: "German School Online",
+    text: "Our language school needed a website that felt trustworthy and modern. Loise delivered exactly that — clean design, easy navigation, and a smooth enrolment process for our students.",
+    color: "#0ea5e9",
   },
   {
-    name: "Amina Hassan",
-    role: "Marketing Director, GrowthCo",
-    text: "The PowerPoint presentations she creates are simply stunning. Our investor pitch secured $2 M in funding — the deck played a huge role.",
+    name: "Emmanuel Ijai",
+    role: "EBM Gym",
+    text: "The gym website Loise created for us is exactly what we envisioned. It's energetic, professional, and our members love using it to check schedules and book classes.",
+    color: "#10b981",
   },
   {
-    name: "Michael Kamau",
-    role: "Entrepreneur",
-    text: "Professional, fast, and incredibly talented. Built our full e-commerce platform in 3 weeks, exceeding all expectations.",
+    name: "Jean Gichuhi",
+    role: "Zawadi",
+    text: "Loise brought our gifting platform to life beautifully. The user experience is smooth, the design is elegant, and our customers keep complimenting how lovely the site feels.",
+    color: "#f59e0b",
   },
 ];
 
@@ -35,7 +39,7 @@ export default function Testimonials({ dark }) {
             <div style={{ fontSize: 12, letterSpacing: 3, color: "#0ea5e9", fontWeight: 700, marginBottom: 10, textTransform: "uppercase" }}>
               Client Love
             </div>
-            <h2 className="syne" style={{ fontSize: "clamp(28px,5vw,48px)", fontWeight: 800, color: dark ? "#fff" : "#0f172a" }}>
+            <h2 className="playfair" style={{ fontSize: "clamp(28px,5vw,48px)", fontWeight: 800, color: dark ? "#fff" : "#0f172a" }}>
               What Clients <span className="gradient-text">Say</span>
             </h2>
           </div>
@@ -55,7 +59,7 @@ export default function Testimonials({ dark }) {
                   <div
                     style={{
                       width: 42, height: 42, borderRadius: "50%",
-                      background: "linear-gradient(135deg, #0ea5e9, #8b5cf6)",
+                      background: `linear-gradient(135deg, ${t.color || "#0ea5e9"}, ${t.color ? t.color + "99" : "#8b5cf6"})`,
                       display: "flex", alignItems: "center", justifyContent: "center",
                       fontSize: 16, fontWeight: 700, color: "white", flexShrink: 0,
                     }}

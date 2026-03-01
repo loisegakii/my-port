@@ -1,8 +1,8 @@
 const socials = [
-  { label: "LI", name: "LinkedIn", url: "#" },
-  { label: "GH", name: "GitHub",   url: "#" },
-  { label: "TW", name: "Twitter",  url: "#" },
-  { label: "UP", name: "Upwork",   url: "#" },
+  { label: "in", name: "LinkedIn", url: "https://www.linkedin.com/in/loisegakii-03501414b/" },
+  { label: "gh", name: "GitHub",   url: "#" },
+  { label: "wa", name: "WhatsApp", url: "https://wa.me/254703472816" },
+  { label: "up", name: "Upwork",   url: "#" },
 ];
 
 const quickLinks = ["About", "Services", "Portfolio", "Testimonials", "Contact"];
@@ -86,7 +86,7 @@ export default function Footer({ dark, scrollTo }) {
           }}
         >
           <p style={{ color: "#475569", fontSize: 13 }}>© 2026 Loise Njeru. All rights reserved.</p>
-          <p style={{ color: "#475569", fontSize: 13 }}>Crafted with React in Nairobi 🇰🇪</p>
+          <p style={{ color: "#475569", fontSize: 13 }}>Crafted with React in Nairobi, Kenya</p>
         </div>
       </div>
     </footer>

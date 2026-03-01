@@ -5,10 +5,10 @@ import FadeIn from "./FadeIn";
 import Counter from "./Counter";
 
 const stats = [
-  { label: "Projects Done",   end: 120, suffix: "+" },
-  { label: "Happy Clients",   end: 85,  suffix: "+" },
-  { label: "Research Papers", end: 40,  suffix: "+" },
-  { label: "Years Exp",       end: 5,   suffix: "+" },
+  { label: "Projects Done",  end: 6,  suffix: "+" },
+  { label: "Happy Clients",  end: 10, suffix: "+" },
+  { label: "Years Exp",      end: 5,  suffix: "+" },
+  { label: "Technologies",   end: 8,  suffix: "+" },
 ];
 
 export default function Hero({ dark, scrollTo }) {
@@ -89,15 +89,26 @@ export default function Hero({ dark, scrollTo }) {
                 Contact Me
               </button>
               <a
-                href="/cv.pdf"
-                download
+                href="/LOISE_GAKII_CV.pdf"
+                download="Loise_Gakii_CV.pdf"
                 style={{
-                  display: "flex", alignItems: "center", gap: 7,
+                  display: "flex", alignItems: "center", gap: 8,
                   color: "#0ea5e9", fontWeight: 600, fontSize: 13,
-                  textDecoration: "none", padding: "11px 0",
+                  textDecoration: "none", padding: "10px 20px",
+                  border: "1px solid rgba(14,165,233,0.35)",
+                  borderRadius: 50,
+                  background: "rgba(14,165,233,0.06)",
+                  transition: "all 0.3s",
                 }}
+                onMouseOver={(e) => { e.currentTarget.style.background="rgba(14,165,233,0.14)"; e.currentTarget.style.transform="translateY(-2px)"; }}
+                onMouseOut={(e)  => { e.currentTarget.style.background="rgba(14,165,233,0.06)"; e.currentTarget.style.transform="translateY(0)"; }}
               >
-                ⬇ Download CV
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download CV
               </a>
             </div>
           </FadeIn>
@@ -154,9 +165,13 @@ export default function Hero({ dark, scrollTo }) {
                 whiteSpace: "nowrap",
                 boxShadow: "0 8px 26px rgba(14,165,233,0.42)",
                 fontSize: 12, fontWeight: 700, color: "white",
+                display: "flex", alignItems: "center",
               }}
             >
-              ✨ Open to Freelance
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="white" style={{marginRight:6,flexShrink:0}}>
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                Open to Freelance
             </div>
           </div>
         </FadeIn>

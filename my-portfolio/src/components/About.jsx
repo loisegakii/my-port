@@ -42,20 +42,21 @@ export default function About({ dark }) {
               About Me
             </div>
             <h2
-              className="syne"
+              className="playfair"
               style={{ fontSize: "clamp(26px,4vw,44px)", fontWeight: 800, color: dark ? "#fff" : "#0f172a", marginBottom: 20, lineHeight: 1.1 }}
             >
               Tech Meets<br /><span className="gradient-text">Academia</span>
             </h2>
             <p style={{ color: "#94a3b8", lineHeight: 1.85, fontSize: 15, marginBottom: 16 }}>
-              I am a multi-skilled professional with deep expertise in full-stack web development
-              and academic research writing. I build modern, scalable applications using React and
-              Django while delivering scholarly papers that meet the highest academic standards.
+              I am an energetic, ambitious Business and Information Technology graduate from
+              Meru University of Science and Technology. With a strong foundation in web development,
+              IT systems, and research, I bring a responsible and results-driven approach to every
+              project I undertake.
             </p>
             <p style={{ color: "#94a3b8", lineHeight: 1.85, fontSize: 15, marginBottom: 28 }}>
-              Whether you need a conversion-optimised website, a published-quality dissertation,
-              or an investor-winning pitch deck — I combine technical precision with creative
-              strategy to deliver measurable results.
+              From building clinic management systems and e-commerce platforms to supporting
+              IT operations at Embu County Government — I combine technical precision with
+              real-world problem-solving to deliver solutions that work.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {tags.map((t) => (
