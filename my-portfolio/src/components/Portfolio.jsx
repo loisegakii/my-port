@@ -78,38 +78,55 @@ export default function Portfolio() {
       <Contact          dark={dark} />
       <Footer           dark={dark} scrollTo={scrollTo} />
 
-      {/* ── Floating Admin Button ── */}
+      {/* ── Hidden Admin Button — only appears on hover ── */}
       <button
         onClick={() => setAdminOpen(true)}
-        title="Open Admin Panel"
+        title="Admin"
         onMouseOver={() => setAdminHover(true)}
         onMouseOut={() => setAdminHover(false)}
         style={{
           position: "fixed", bottom: 28, right: 28, zIndex: 99,
-          width: adminHover ? "auto" : 46,
-          height: 46,
-          padding: adminHover ? "0 20px" : "0",
-          background: adminHover
-            ? "linear-gradient(135deg,#0ea5e9,#0284c7)"
-            : "rgba(14,165,233,0.15)",
-          border: "1px solid rgba(14,165,233,0.4)",
+          width: 46, height: 46,
+          background: "transparent",
+          border: "none",
           borderRadius: 50,
           cursor: "pointer",
-          fontSize: adminHover ? 13 : 18,
-          fontWeight: 700,
-          fontFamily: "inherit",
-          transition: "all 0.3s",
+          transition: "all 0.4s",
           display: "flex", alignItems: "center",
-          justifyContent: "center", gap: 6,
-          whiteSpace: "nowrap",
-          boxShadow: adminHover ? "0 8px 24px rgba(14,165,233,0.4)" : "none",
-          color: adminHover ? "white" : "#0ea5e9",
-          backdropFilter: "blur(8px)",
-          overflow: "hidden",
+          justifyContent: "center",
+          opacity: adminHover ? 1 : 0,
+          pointerEvents: "all",
         }}
       >
-        {adminHover ? <>⚙️ Admin Panel</> : "⚙️"}
+        <div style={{
+          width: 46, height: 46,
+          background: adminHover ? "linear-gradient(135deg,#0ea5e9,#0284c7)" : "transparent",
+          border: adminHover ? "none" : "none",
+          borderRadius: 50,
+          display: "flex", alignItems: "center",
+          justifyContent: "center",
+          transition: "all 0.3s",
+          boxShadow: adminHover ? "0 8px 24px rgba(14,165,233,0.4)" : "none",
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/>
+          </svg>
+        </div>
       </button>
+
+      {/* Invisible hover trigger zone — always catches the mouse ── */}
+      <div
+        onMouseOver={() => setAdminHover(true)}
+        onMouseOut={() => setAdminHover(false)}
+        style={{
+          position: "fixed", bottom: 0, right: 0, zIndex: 98,
+          width: 80, height: 80,
+          background: "transparent",
+          cursor: "default",
+        }}
+      />
 
       {/* ── Admin Panel Overlay ── */}
       {adminOpen && (
