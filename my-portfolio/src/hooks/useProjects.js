@@ -1,105 +1,130 @@
 import { useState, useEffect } from "react";
+import { supabase } from "../lib/supabaseClient";
 
-// ── Your real projects pre-loaded as defaults ──────────────────────────────
 const DEFAULT_PROJECTS = [
   {
-    id: 1,
     title: "Clinic Management System",
     category: "Software",
-    description:
-      "A full-featured clinic management platform handling patient records, appointment scheduling, billing, and doctor dashboards — built with React and Django.",
-    image: "",
-    link: "#",
-    tech: "React, Django, PostgreSQL",
+    description: "A comprehensive clinic management platform built to streamline patient records, appointment scheduling, and billing. Designed to simplify day-to-day operations for healthcare providers with an intuitive dashboard for doctors and admin staff.",
+    image: "", link: "#", tech: "React, Django, PostgreSQL",
   },
   {
-    id: 2,
     title: "German School Online",
     category: "Web",
-    description:
-      "A professional e-learning website for a German language school, featuring course listings, student enrolment, and an integrated payment system.",
-    image: "",
-    link: "#",
-    tech: "WordPress, WooCommerce, SEO",
+    description: "A professional e-learning website for a German language school, featuring structured course listings, seamless student enrolment, and an integrated payment system. Built to give students a smooth and trustworthy learning experience online.",
+    image: "", link: "#", tech: "WordPress, WooCommerce, SEO",
   },
   {
-    id: 3,
     title: "EBM Gym Website",
     category: "Web",
-    description:
-      "A high-energy gym website with class schedules, membership plans, trainer profiles, and a custom booking system — fully mobile-responsive.",
-    image: "",
-    link: "#",
-    tech: "React, Tailwind CSS",
+    description: "A bold, high-energy website for EBM Gym featuring class schedules, membership plans, trainer profiles, and an online booking system. Fully mobile-responsive and designed to attract and convert new members.",
+    image: "", link: "#", tech: "React, Tailwind CSS",
   },
   {
-    id: 4,
     title: "Dasa Hair",
     category: "Web",
-    description:
-      "A sleek e-commerce website for a hair products brand, featuring a product catalogue, cart, checkout, and Instagram-style gallery.",
-    image: "",
-    link: "#",
-    tech: "WordPress, WooCommerce",
+    description: "A sleek e-commerce website for Dasa Hair, a premium hair products brand. Features a full product catalogue, shopping cart, secure checkout, and a visual gallery — making it easy for customers to browse and buy online.",
+    image: "", link: "#", tech: "WordPress, WooCommerce",
   },
   {
-    id: 5,
     title: "Zawadi",
     category: "Web",
-    description:
-      "An elegant gifting platform allowing users to browse curated gift collections, personalise orders, and schedule deliveries.",
-    image: "",
-    link: "#",
-    tech: "React, Node.js",
+    description: "An elegant gifting platform that allows users to browse curated gift collections, personalise their orders, and schedule deliveries for their loved ones. Built with a warm, user-friendly experience at its core.",
+    image: "", link: "#", tech: "React, Node.js",
   },
   {
-    id: 6,
     title: "Hustle Stack",
     category: "Software",
-    description:
-      "A productivity and project management tool for freelancers and small teams — with task boards, time tracking, and client invoicing built in.",
-    image: "",
-    link: "#",
-    tech: "React, Django, REST API",
+    description: "A productivity and project management tool built for freelancers and small teams. Features task boards, time tracking, and client invoicing — everything needed to manage projects and get paid, all in one place.",
+    image: "", link: "#", tech: "React, Django, REST API",
   },
 ];
 
-const STORAGE_KEY = "loise_njeru_projects";
-
 export default function useProjects() {
-  const [projects, setProjects] = useState(() => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading]   = useState(true);
+
+  useEffect(() => { fetchProjects(); }, []);
+
+  async function fetchProjects() {
+    setLoading(true);
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : DEFAULT_PROJECTS;
-    } catch {
-      return DEFAULT_PROJECTS;
+      const { data, error } = await supabase
+        .from("projects")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      if (data.length === 0) {
+        await seedDefaults();
+      } else {
+        setProjects(data);
+      }
+    } catch (err) {
+      console.warn("Supabase unavailable, using defaults:", err.message);
+      const saved = localStorage.getItem("loise_njeru_projects");
+      setProjects(saved ? JSON.parse(saved) : DEFAULT_PROJECTS);
+    } finally {
+      setLoading(false);
     }
-  });
+  }
 
-  // Persist to localStorage on every change
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-  }, [projects]);
+  async function seedDefaults() {
+    try {
+      const { data, error } = await supabase
+        .from("projects")
+        .insert(DEFAULT_PROJECTS)
+        .select();
+      if (error) throw error;
+      setProjects(data);
+    } catch (err) {
+      console.warn("Seed failed:", err.message);
+      setProjects(DEFAULT_PROJECTS);
+    }
+  }
 
-  const addProject = (project) => {
-    const newProject = { ...project, id: Date.now() };
-    setProjects((prev) => [newProject, ...prev]);
-    return newProject;
-  };
+  async function addProject(project) {
+    try {
+      const { data, error } = await supabase
+        .from("projects")
+        .insert([project])
+        .select()
+        .single();
+      if (error) throw error;
+      setProjects((prev) => [data, ...prev]);
+    } catch (err) {
+      console.error("Add failed:", err.message);
+    }
+  }
 
-  const updateProject = (id, updates) => {
-    setProjects((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, ...updates } : p))
-    );
-  };
+  async function updateProject(id, updates) {
+    try {
+      const { error } = await supabase
+        .from("projects")
+        .update(updates)
+        .eq("id", id);
+      if (error) throw error;
+      setProjects((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...updates } : p))
+      );
+    } catch (err) {
+      console.error("Update failed:", err.message);
+    }
+  }
 
-  const deleteProject = (id) => {
-    setProjects((prev) => prev.filter((p) => p.id !== id));
-  };
+  async function deleteProject(id) {
+    try {
+      const { error } = await supabase
+        .from("projects")
+        .delete()
+        .eq("id", id);
+      if (error) throw error;
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+    } catch (err) {
+      console.error("Delete failed:", err.message);
+    }
+  }
 
-  const resetToDefaults = () => {
-    setProjects(DEFAULT_PROJECTS);
-  };
-
-  return { projects, addProject, updateProject, deleteProject, resetToDefaults };
+  return { projects, loading, addProject, updateProject, deleteProject };
 }
